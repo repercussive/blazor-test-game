@@ -1,0 +1,20 @@
+﻿@inject GameManager gameManager
+
+<h3>Create your hero</h3>
+
+<label for="nameInput">Choose a name for your hero:</label>
+<input id="nameInput" type="text" @bind="PlayerName" />
+<button @onclick="HandleCreateHero" class="btn btn-primary">Done!</button>
+
+@code {
+    public string PlayerName { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<Hero> OnCreateHero { get; set; }
+
+    private async Task HandleCreateHero()
+    {
+        Hero hero = new Hero(PlayerName, 10);
+        await OnCreateHero.InvokeAsync(hero);
+    }
+}

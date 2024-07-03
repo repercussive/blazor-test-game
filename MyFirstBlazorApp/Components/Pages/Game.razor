@@ -1,0 +1,22 @@
+﻿@page "/game"
+@rendermode InteractiveServer
+@inject GameManager gameManager
+
+<h1 class="bg-gradient bg-black rounded-2 text-white text-md-center p-2 mb-4">Let's play!</h1>
+
+@if (gameManager.BattleStatus == BattleStatus.AwaitingGameStart)
+{
+    <CharacterCreator OnCreateHero="HandleStartGame" />
+}
+else
+{
+    <Battle />
+}
+
+@code {
+    private void HandleStartGame(Hero hero)
+    {
+        gameManager.RegisterPlayer(hero);
+        gameManager.StartNewRound();
+    }
+}

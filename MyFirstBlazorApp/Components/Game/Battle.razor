@@ -1,0 +1,65 @@
+﻿@inject GameManager gameManager;
+
+@if (gameManager.Player is not null && gameManager.Opponent is not null)
+{
+    <div class="card card-body shadow-sm flex-row align-items-center mb-2">
+        <p class="reveal-text m-0">@gameManager.GetStatusMessage()</p>
+    </div>
+
+    @switch (gameManager.BattleStatus)
+    {
+        case BattleStatus.AwaitingDiceRoll:
+            <button @onclick="() => gameManager.HandlePlayerAction(PlayerAction.RollDice)"
+                    class="btn btn-primary">
+                Roll dice
+            </button>
+            break;
+
+        case BattleStatus.AwaitingPlayerChoice:
+            <button @onclick="() => gameManager.HandlePlayerAction(PlayerAction.Attack)" class="btn btn-primary">Attack</button>
+            <button @onclick="() => gameManager.HandlePlayerAction(PlayerAction.Heal)" class="btn btn-danger">Heal</button>
+            break;
+
+        case BattleStatus.AwaitingOpponentAction:
+            <button @onclick="gameManager.HandleOpponentTurn" class="btn btn-primary">Continue</button>
+            break;
+
+        case BattleStatus.OpponentActionSummary:
+            <button @onclick="() => gameManager.SetBattleStatus(BattleStatus.AwaitingDiceRoll)"
+                    class="btn btn-primary">
+                Continue
+            </button>
+            break;
+
+        case BattleStatus.PlayerWin:
+            <button class="btn btn-success">Yippee</button>
+            break;
+
+        case BattleStatus.OpponentWin:
+            <button class="btn btn-danger">Too bad</button>
+            break;
+    }
+
+
+    <hr />
+    <h4>You</h4>
+    <ul>
+        <li>Name: @gameManager.Player.Name</li>
+        <li>HP: @gameManager.Player.HealthPoints</li>
+    </ul>
+
+    <h4>Opponent</h4>
+    <ul>
+        <li>Name: @gameManager.Opponent.Name</li>
+        <li>HP: @gameManager.Opponent.HealthPoints</li>
+    </ul>
+
+
+}
+
+@code {
+    public void returnName()
+    {
+        
+    }
+}

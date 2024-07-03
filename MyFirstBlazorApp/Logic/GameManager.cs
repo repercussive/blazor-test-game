@@ -22,10 +22,10 @@ public class GameManager
 {
     public bool IsPlayerTurn { get; private set; } = true;
     public Hero Player { get; private set; } = new Hero("Placeholder", 1);
-    public Monster Opponent { get; private set; }
+    public Monster? Opponent { get; private set; }
     public int Round { get; private set; } = 1;
     public BattleStatus BattleStatus { get; private set; } = BattleStatus.AwaitingGameStart;
-    private bool IsRoundOver { get { return Player.HealthPoints <= 0 || Opponent.HealthPoints <= 0; } }
+    private bool IsRoundOver { get { return Player.HealthPoints <= 0 || Opponent?.HealthPoints <= 0; } }
 
     public void RegisterPlayer(Hero player)
     {
@@ -53,7 +53,7 @@ public class GameManager
         }
         else if (playerAction == PlayerAction.Heal)
         {
-            Player.Heal();
+            Player.Heal(Player.DiceRoll);
         }
 
         if (IsRoundOver) SetBattleStatus(BattleStatus.PlayerWin);
@@ -62,7 +62,7 @@ public class GameManager
 
     public void HandleOpponentTurn()
     {
-        Opponent.Attack();
+        Opponent?.Attack();
 
         if (IsRoundOver) SetBattleStatus(BattleStatus.OpponentWin);
         else SetBattleStatus(BattleStatus.OpponentActionSummary);

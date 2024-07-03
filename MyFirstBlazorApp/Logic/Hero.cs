@@ -1,28 +1,21 @@
 ﻿namespace MyFirstBlazorApp.Logic;
 
-public class Hero : IHealth
+public class Hero : Character
 {
-    public string Name { get; set; }
-    public int HealthPoints { get; set; }
-    public int MaxHealthPoints { get; set; }
-    public int DiceRoll { get; set; } = 0;
-    public Monster CurrentOpponent { get; set; }
+    public int DiceRoll { get; private set; } = 0;
 
-    public Hero(string name, int healthPoints)
+    public Hero(string name, int healthPoints) : base(name, healthPoints, 0)
     {
-        Name = name;
-        HealthPoints = healthPoints;
-        MaxHealthPoints = healthPoints;
-        CurrentOpponent = new Monster("Placeholder", -1, -1, this);
     }
 
-    public void Attack()
+    public override void Attack()
     {
-        CurrentOpponent.TakeDamage();
+        base.Attack();
     }
 
     public void RollDice()
     {
         DiceRoll = new Random().Next(1, 6);
+        AttackPower = DiceRoll;
     }
 }

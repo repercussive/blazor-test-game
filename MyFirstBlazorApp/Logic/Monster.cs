@@ -1,19 +1,10 @@
 ﻿namespace MyFirstBlazorApp.Logic;
 
-public class Monster : IHealth
+public class Monster : Character
 {
-    public string Name { get; set; }
-    public int HealthPoints { get; set; }
-    public int MaxHealthPoints { get; set; }
-    public int AttackPower { get; private set; }
-    public Hero Hero { get; set; }
-
-    public Monster(string name, int healthPoints, int attackPower, Hero hero)
+    public Monster(string name, int healthPoints, int attackPower, Hero heroOpponent)
+        : base(name, healthPoints, attackPower)
     {
-        Name = name; 
-        HealthPoints = healthPoints;
-        AttackPower = attackPower;
-        Hero = hero;
-        MaxHealthPoints = healthPoints;
+        CurrentOpponent = heroOpponent;
     }
 }
